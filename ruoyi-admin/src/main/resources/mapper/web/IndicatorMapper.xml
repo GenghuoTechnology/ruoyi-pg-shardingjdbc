@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.web.mapper.IndicatorMapper">
+    
+    <resultMap type="Indicator" id="IndicatorResult">
+        <result property="pushTime"    column="push_time"    />
+        <result property="pusher"    column="pusher"    />
+        <result property="categoryPathCode"    column="category_path_code"    />
+        <result property="bizDateTime"    column="biz_date_time"    />
+        <result property="orgIndexCodePath"    column="org_index_code_path"    />
+        <result property="dimensionCode"    column="dimension_code"    />
+        <result property="indicatorCode"    column="indicator_code"    />
+        <result property="indicatorValue"    column="indicator_value"    />
+        <result property="indicatorValue2"    column="indicator_value2"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectIndicatorVo">
+        select push_time, pusher, category_path_code, biz_date_time, org_index_code_path, dimension_code, indicator_code, indicator_value, indicator_value2, create_time, id from indicator
+    </sql>
+
+    <select id="selectIndicatorList" parameterType="Indicator" resultMap="IndicatorResult">
+        <include refid="selectIndicatorVo"/>
+        <where>  
+            <if test="pushTime != null "> and push_time = #{pushTime}</if>
+            <if test="pusher != null  and pusher != ''"> and pusher = #{pusher}</if>
+            <if test="categoryPathCode != null  and categoryPathCode != ''"> and category_path_code = #{categoryPathCode}</if>
+            <if test="indicatorValue != null  and indicatorValue != ''"> and indicator_value = #{indicatorValue}</if>
+            <if test="indicatorValue2 != null  and indicatorValue2 != ''"> and indicator_value2 = #{indicatorValue2}</if>
+        </where>
+    </select>
+    
+    <select id="selectIndicatorByBizDateTime" parameterType="Date" resultMap="IndicatorResult">
+        <include refid="selectIndicatorVo"/>
+        where biz_date_time = #{bizDateTime}
+    </select>
+        
+    <insert id="insertIndicator" parameterType="Indicator">
+        insert into indicator
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pushTime != null">push_time,</if>
+            <if test="pusher != null">pusher,</if>
+            <if test="categoryPathCode != null">category_path_code,</if>
+            <if test="bizDateTime != null">biz_date_time,</if>
+            <if test="orgIndexCodePath != null">org_index_code_path,</if>
+            <if test="dimensionCode != null">dimension_code,</if>
+            <if test="indicatorCode != null">indicator_code,</if>
+            <if test="indicatorValue != null">indicator_value,</if>
+            <if test="indicatorValue2 != null">indicator_value2,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="id != null">id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pushTime != null">#{pushTime},</if>
+            <if test="pusher != null">#{pusher},</if>
+            <if test="categoryPathCode != null">#{categoryPathCode},</if>
+            <if test="bizDateTime != null">#{bizDateTime},</if>
+            <if test="orgIndexCodePath != null">#{orgIndexCodePath},</if>
+            <if test="dimensionCode != null">#{dimensionCode},</if>
+            <if test="indicatorCode != null">#{indicatorCode},</if>
+            <if test="indicatorValue != null">#{indicatorValue},</if>
+            <if test="indicatorValue2 != null">#{indicatorValue2},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="id != null">#{id},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIndicator" parameterType="Indicator">
+        update indicator
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pushTime != null">push_time = #{pushTime},</if>
+            <if test="pusher != null">pusher = #{pusher},</if>
+            <if test="categoryPathCode != null">category_path_code = #{categoryPathCode},</if>
+            <if test="orgIndexCodePath != null">org_index_code_path = #{orgIndexCodePath},</if>
+            <if test="dimensionCode != null">dimension_code = #{dimensionCode},</if>
+            <if test="indicatorCode != null">indicator_code = #{indicatorCode},</if>
+            <if test="indicatorValue != null">indicator_value = #{indicatorValue},</if>
+            <if test="indicatorValue2 != null">indicator_value2 = #{indicatorValue2},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="id != null">id = #{id},</if>
+        </trim>
+        where biz_date_time = #{bizDateTime}
+    </update>
+
+    <delete id="deleteIndicatorByBizDateTime" parameterType="Date">
+        delete from indicator where biz_date_time = #{bizDateTime}
+    </delete>
+
+    <delete id="deleteIndicatorByBizDateTimes" parameterType="String">
+        delete from indicator where biz_date_time in 
+        <foreach item="bizDateTime" collection="array" open="(" separator="," close=")">
+            #{bizDateTime}
+        </foreach>
+    </delete>
+</mapper>

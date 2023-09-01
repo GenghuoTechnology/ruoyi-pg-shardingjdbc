@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.web.mapper.TestdMonthMapper">
+    
+    <resultMap type="TestdMonth" id="TestdMonthResult">
+        <result property="pushTime"    column="push_time"    />
+        <result property="pusher"    column="pusher"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectTestdMonthVo">
+        select push_time, pusher, id from testd_month
+    </sql>
+
+    <select id="selectTestdMonthList" parameterType="TestdMonth" resultMap="TestdMonthResult">
+        <include refid="selectTestdMonthVo"/>
+        <where>  
+            <if test="pushTime != null "> and push_time = #{pushTime}</if>
+            <if test="pusher != null  and pusher != ''"> and pusher = #{pusher}</if>
+        </where>
+    </select>
+    
+    <select id="selectTestdMonthById" parameterType="String" resultMap="TestdMonthResult">
+        <include refid="selectTestdMonthVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTestdMonth" parameterType="TestdMonth">
+        insert into testd_month
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pushTime != null">push_time,</if>
+            <if test="pusher != null">pusher,</if>
+            <if test="id != null">id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pushTime != null">#{pushTime},</if>
+            <if test="pusher != null">#{pusher},</if>
+            <if test="id != null">#{id},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestdMonth" parameterType="TestdMonth">
+        update testd_month
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pushTime != null">push_time = #{pushTime},</if>
+            <if test="pusher != null">pusher = #{pusher},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTestdMonthById" parameterType="String">
+        delete from testd_month where id = #{id}
+    </delete>
+
+    <delete id="deleteTestdMonthByIds" parameterType="String">
+        delete from testd_month where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
