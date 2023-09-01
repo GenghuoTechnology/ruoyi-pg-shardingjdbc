@@ -42,7 +42,7 @@
 18. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
 
 
-## 集成最新的shardingjdbc 使用和测试见admin 下的test 由于公司业务需要，数据量大 集成的是多数据源 pg+oracle  主要是对pg分表，oracle只是个数据源
+## 集成最新的shardingjdbc 使用和测试见admin 下的test 由于公司业务需要，数据量大 集成的是多数据源 pg+oracle  主要是对pg分表
 ## 配置目录见src/main/java/com/ruoyi/framework/config/ShardingDataSourceConfig.java
 ## 为shardingjdbc 单独配置数据源 @DataSource(value = DataSourceType.SHARDING)  不使用时单独切换
 ## 官方说明配置案例比较少，阅读两天配成，确实很强大，供学习参考 
